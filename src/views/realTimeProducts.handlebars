@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos en Tiempo Real</title>
+</head>
+<body>
+
+    <h1>Productos en Tiempo Real</h1>
+
+    <form id="productForm">
+        <input type="text" id="title" placeholder="Nombre del producto" required>
+        <input type="number" id="price" placeholder="Precio" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <h2>Lista de productos</h2>
+
+    <ul id="productsList"></ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/realTimeProducts.js"></script>
+
+</body>
+</html>
