@@ -1,7 +1,15 @@
+import viewsRouter from "./routes/views.router.js";
+import cartsRouter from "./routes/carts.router.js";
+import productsRouter from "./routes/products.router.js";
 import express from "express";
 import { engine } from "express-handlebars";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+
+dotenv.config();
+connectDB();
 
 const app = express();
 const httpServer = createServer(app);
@@ -10,6 +18,9 @@ const io = new Server(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./src/public"));
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
+app.use("/", viewsRouter);
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
@@ -20,13 +31,13 @@ let products = [
   {
     id: 1,
     title: "Notebook",
-    price: 1500
+    price: 1500,
   },
   {
     id: 2,
     title: "Mouse",
-    price: 30
-  }
+    price: 30,
+  },
 ];
 
 // Vista Home
@@ -59,6 +70,8 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(8080, () => {
-  console.log("Servidor escuchando en http://localhost:8080");
+const PORT = process.env.PORT || 8080;
+
+httpServer.listen(PORT, () => {
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
